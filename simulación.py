@@ -10,8 +10,8 @@ random.seed(RANDOM_SEED)
 # Parámetros de la simulación
 NUM_PROCESOS = 25
 INTERVALO = 1
-RAM_CAPACIDAD = 200
-CPU_VELOCIDAD = 3
+RAM_CAPACIDAD = 100
+CPU_VELOCIDAD = 6
 NUM_CPUS = 1
 
 class Proceso:
