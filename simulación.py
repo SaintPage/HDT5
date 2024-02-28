@@ -8,7 +8,7 @@ RANDOM_SEED = 42
 random.seed(RANDOM_SEED)
 
 # Parámetros de la simulación
-NUM_PROCESOS = 50
+NUM_PROCESOS = 100
 INTERVALO = 10
 RAM_CAPACIDAD = 100
 CPU_VELOCIDAD = 3
