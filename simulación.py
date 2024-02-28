@@ -1,3 +1,5 @@
+# Programa que se utiliza colas para simular el tiempo de corrida de programas de un sistema operativo
+#Ángel de Jesús Mérida Jiménez 23661
 
 import simpy
 import random
@@ -20,20 +22,26 @@ class Proceso:
         self.nombre = nombre
         self.ram = ram
         self.cpu = cpu
+        # Esto genera un número aleatorio entre 1 y 10 y lo asigna a la variable de instancia.
         self.memoria = random.randint(1, 10)
+        # Esto genera un número aleatorio entre 1 y 10 y lo asigna a la variable de instancia
         self.instrucciones = random.randint(1, 10)
         self.estado = "new"
-        self.tiempo_llegada = None  # Se inicializa como None
-        self.tiempo_final = None  # Se inicializa como None
-        self.action = self.run  # Just assign the generator function
+        self.tiempo_llegada = None  
+        self.tiempo_final = None  
+        self.action = self.run  
 
     def run(self):
-        self.tiempo_llegada = self.env.now  # Se registra el tiempo de llegada
+        #Registra el tiempo de llegada del proceso al sistema 
+        self.tiempo_llegada = self.env.now  
         while True:
+            #Si el estado del proceso es “new”, el proceso intenta obtener memoria llamando al método
             if self.estado == "new":
                 yield self.env.process(self.obtener_memoria())
+            # Si el estado del proceso es “ready”, el proceso intenta ejecutar instrucciones llamando al método
             elif self.estado == "ready":
                 yield self.env.process(self.ejecutar_instrucciones())
+            #Si el estado del proceso es “waiting”, el proceso espera un tiempo aleatorio entre 1 y 21 unidades de tiempo y luego cambia su estado a “ready”.
             elif self.estado == "waiting":
                 yield self.env.timeout(random.randint(1, 21))
                 self.estado = "ready"
@@ -68,9 +76,12 @@ env = simpy.Environment()
 ram = simpy.Container(env, init=RAM_CAPACIDAD, capacity=RAM_CAPACIDAD)
 cpu = simpy.Resource(env, capacity=NUM_CPUS)
 
+#Esta es una comprensión de lista que genera una lista de procesos.
 procesos = [p for p in generar_procesos(env, NUM_PROCESOS, ram, cpu)]
 for proceso in procesos:
+    #Para cada objeto Proceso, se llama al método action
     env.process(proceso.action())  
+# Para iniciar la simulación.     
 env.run()
 
 # Calcular el tiempo promedio y la desviación estándar
@@ -85,7 +96,8 @@ else:
 #Gráfica:
 nombres_procesos = [p.nombre for p in procesos if p.tiempo_final is not None]
 plt.bar(range(len(nombres_procesos)), tiempos)
-plt.xticks(range(len(nombres_procesos)), nombres_procesos, rotation=90)  # Rota a 90 grados los procesos generados
+# Rota a 90 grados los procesos generados
+plt.xticks(range(len(nombres_procesos)), nombres_procesos, rotation=90)  
 plt.xlabel('Procesos')
 plt.ylabel('Tiempo')
 plt.title('Tiempo por proceso')
