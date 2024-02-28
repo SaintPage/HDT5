@@ -11,8 +11,8 @@ random.seed(RANDOM_SEED)
 NUM_PROCESOS = 25
 INTERVALO = 1
 RAM_CAPACIDAD = 100
-CPU_VELOCIDAD = 6
-NUM_CPUS = 1
+CPU_VELOCIDAD = 3
+NUM_CPUS = 2
 
 class Proceso:
     def __init__(self, env, nombre, ram, cpu):
